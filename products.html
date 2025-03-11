@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Seller Dashboard</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="container">
+      <div class="logo">
+        <span>SellerHub</span>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="index.html">Dashboard</a>
+        <a href="products.html" class="active">Products</a>
+        <a href="#">Orders</a>
+        <a href="#">Analytics</a>
+      </nav>
+      
+      <div class="profile">
+        <button class="profile-btn">Profile</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <div>
+        <h1>Your Products</h1>
+        <p>Manage your store inventory</p>
+      </div>
+      <button class="add-product-btn">+ Add Product</button>
+    </div>
+
+    <div class="inventory-summary">
+      <div class="summary-card">
+        <div class="summary-icon">📦</div>
+        <h2>Total Products: 4</h2>
+        <p>You have 4 products in your inventory</p>
+      </div>
+    </div>
+    
+    <div class="products-grid">
+      <div class="product-card">
+        <img src="/placeholder.svg" alt="Headphones">
+        <h3>Ultra Premium Headphones</h3>
+        <div class="price">฿299.99</div>
+        <div class="product-stats">
+          <div>Sold: 42</div>
+          <div>In stock: 18</div>
+        </div>
+        <button class="delete-btn">Delete</button>
+      </div>
+
+      <div class="product-card">
+        <img src="/placeholder.svg" alt="Watch">
+        <h3>Designer Watch</h3>
+        <div class="price">฿199.95</div>
+        <div class="product-stats">
+          <div>Sold: 31</div>
+          <div>In stock: 15</div>
+        </div>
+        <button class="delete-btn">Delete</button>
+      </div>
+
+      <div class="product-card">
+        <img src="/placeholder.svg" alt="Charging Pad">
+        <h3>Wireless Charging Pad</h3>
+        <div class="price">฿49.99</div>
+        <div class="product-stats">
+          <div>Sold: 78</div>
+          <div>In stock: 32</div>
+        </div>
+        <button class="delete-btn">Delete</button>
+      </div>
+
+      <div class="product-card">
+        <img src="/placeholder.svg" alt="Speaker">
+        <h3>Smart Home Speaker</h3>
+        <div class="price">฿129.99</div>
+        <div class="product-stats">
+          <div>Sold: 54</div>
+          <div>In stock: 22</div>
+        </div>
+        <button class="delete-btn">Delete</button>
+      </div>
+    </div>
+  </main>
+
+  <div id="add-product-modal" class="modal">
+    <div class="modal-content">
+      <h2>Add New Product</h2>
+      <form id="add-product-form">
+        <div class="form-group">
+          <label for="product-name">Product Name</label>
+          <input type="text" id="product-name" placeholder="e.g. Premium Headphones" required>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="product-price">Price (฿)</label>
+            <input type="number" id="product-price" min="0" step="0.01" placeholder="e.g. 299.99" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="product-stock">Stock</label>
+            <input type="number" id="product-stock" min="0" step="1" placeholder="e.g. 50" required>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="cancel-btn">Cancel</button>
+          <button type="submit" class="submit-btn">Add Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Simple JavaScript for modal functionality
+    const addProductBtn = document.querySelector('.add-product-btn');
+    const modal = document.getElementById('add-product-modal');
+    const cancelBtn = document.querySelector('.cancel-btn');
+    
+    addProductBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+    
+    cancelBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
