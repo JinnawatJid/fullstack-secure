@@ -17,5 +17,5 @@ app.use('/login', loginRoute(dbPool));
 app.use('/register', registerRoute(dbPool));
 
 app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+  console.log(`Server listening at http://localhost:${port}`);
 });

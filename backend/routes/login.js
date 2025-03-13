@@ -3,48 +3,64 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 
 module.exports = (dbPool) => {
-  router.post("/", async (req, res) => {
-    const { username, password } = req.body;
+  router.post("/", (req, res) => {
+    const { email, password } = req.body;
 
-    console.log(
-      "Login attempt for:",
-      username,
-      "Password:",
-      "******** (hashed)"
-    );
+    console.log(
+      "Login attempt for:",
+      email,
+      "Password:",
+      "******** (hashed)"
+    );
 
-    try {
-      const result = await dbPool.query(
-        "SELECT * FROM users WHERE username = $1",
-        [username]
-      );
-      const user = result.rows[0];
+    // ค้นหาผู้ใช้ในฐานข้อมูล
+    dbPool.query(
+      "SELECT * FROM User WHERE Email = ?",
+      [email],
+      (error, results) => {
+        if (error) {
+          console.error("Login database error", error);
+          return res
+            .status(500)
+            .json({ message: "Login failed due to server error." });
+        }
 
-      if (!user) {
-        console.log("User not found in database:", username);
-        return res
-          .status(401)
-          .json({ message: "Invalid username or password." });
-      }
+        // ตรวจสอบว่าพบผู้ใช้หรือไม่
+        if (results.length === 0) {
+          console.log("User not found in database:", email);
+          return res
+            .status(401)
+            .json({ message: "Invalid email or password." });
+        }
 
-      const passwordMatch = await bcrypt.compare(password, user.password);
+        const user = results[0];
 
-      if (!passwordMatch) {
-        console.log("Incorrect password for:", username);
-        return res
-          .status(401)
-          .json({ message: "Invalid username or password." });
-      }
+        // ตรวจสอบรหัสผ่าน
+        bcrypt.compare(password, user.HashPassword, (bcryptError, passwordMatch) => {
+          if (bcryptError) {
+            console.error("Password comparison error:", bcryptError);
+            return res
+              .status(500)
+              .json({ message: "Login failed due to server error." });
+          }
 
-      console.log("Login successful for:", username, "Role:", user.role);
-      res.status(200).json({ role: user.role, username: user.username });
-    } catch (error) {
-      console.error("Login database error", error);
-      return res
-        .status(500)
-        .json({ message: "Login failed due to server error." });
-    }
-  });
+          if (!passwordMatch) {
+            console.log("Incorrect password for:", email);
+            return res
+              .status(401)
+              .json({ message: "Invalid email or password." });
+          }
 
-  return router;
+          // แปลง Role ให้เป็น lowercase เพื่อให้ตรงกับที่ frontend คาดหวัง
+          let clientRole = user.Role.toLowerCase();
+
+          console.log("Login successful for:", email, "Role:", user.Role);
+
+          res.status(200).json({ role: clientRole, email: user.Email });
+        });
+      }
+    );
+  });
+
+  return router;
 };
