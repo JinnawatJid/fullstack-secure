@@ -19,24 +19,28 @@
         <div class="stats-container">
             <div class="stat-card" onclick="showSalesDetails()">
                 <h3>Total Sales</h3>
-                <div class="value" id="total-sales-value"></div> </div>
+                <div class="value" id="total-sales-value"></div>
+            </div>
             <div class="stat-card" onclick="showBestSellerDetails()">
                 <h3>Best Seller</h3>
-                <div class="value" id="best-seller-value"></div> </div>
+                <div class="value" id="best-seller-value"></div>
+            </div>
             <div class="stat-card" onclick="showTaxDetails()">
                 <h3>VAT (7%)</h3>
-                <div class="value" id="vat-value"></div> </div>
+                <div class="value" id="vat-value"></div>
+            </div>
         </div>
 
         <div class="product-list">
             <h2>
                 My Products
-                <button class="add-product-btn" onclick="openAddProductModal()">+ Add Product</button>
+                <a href="/add-product.html" class="add-product-btn">+ Add Product</a>
             </h2>
             <table>
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Price</th>
                         <th>Quantity</th>
@@ -44,16 +48,16 @@
                     </tr>
                 </thead>
                 <tbody id="product-table-body">
-                    </tbody>
+                </tbody>
             </table>
         </div>
     </div>
 
     <div id="product-modal" class="modal">
-        </div>
+    </div>
 
     <div id="sales-details-modal" class="modal">
-        </div>
+    </div>
 
     <script src="script.js"></script>
     <script src="seller.js"></script>
