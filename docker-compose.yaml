@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: my-mysql
+    restart: always
+    ports:
+      - "3307:3306"  # Expose MySQL port to localhost on port 3307
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: 1234
+    volumes:
+      - mysql_data:/var/lib/mysql  # Persistent storage for MySQL
+    networks:
+      - my-app-network  # Connect to the custom network
+    command: --default-authentication-plugin=mysql_native_password  # Ensure compatibility
+
+  app:
+    build:
+      context: .  # Build the Docker image from the current directory
+    ports:
+      - "3000:3007"  # Expose backend server to localhost on port 3000
+    # volumes:
+    #   - ./backend:/app
+    environment:
+      - NODE_ENV=production  # Set the environment variable for Node.js
+      - MYSQL_HOST=my-mysql  # Connect the backend to MySQL by hostname
+      - MYSQL_USER=myuser  # MySQL user for the backend app
+      - MYSQL_PASSWORD=1234  # MySQL password for the backend app
+      - MYSQL_DATABASE=mydatabase  # The database to connect to
+    command: ["npm", "start"]  # Start the backend app
+    depends_on:
+      - mysql  # Ensure MySQL starts before the backend app
+    networks:
+      - my-app-network  # Connect to the custom network
+
+networks:
+  my-app-network:
+    driver: bridge  # Use the bridge driver for communication between containers
+
+volumes:
+  mysql_data:  # Persistent storage for MySQL data
