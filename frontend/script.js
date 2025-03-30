@@ -25,6 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }) //เอา response มาใช้
         .then((data) => {
           const userRole = data.role;
+          const token = data.token; // Extract the token from the response
+
+          // Store the token in localStorage
+          localStorage.setItem('authToken', token);
+          console.log("JWT stored in localStorage:", token);
+
           console.log("User Role received:", userRole);
           switch (userRole) {
             case "admin":
@@ -78,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
           password: passwordInput,
           role: roleInput,
         }),
-      }) //ส่งแล้ว ได้ response กลับมา
+      })
         .then((response) => {
           if (!response.ok) {
             return response.json().then((err) => {
@@ -102,49 +108,52 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const dashboardContainer = document.querySelector(".dashboard-container");
-  if (dashboardContainer) {
-    const userRole = localStorage.getItem("userRole");
-    const email = localStorage.getItem("email");
-    const emailDisplay = document.getElementById("email-display");
-    const logoutButton = document.getElementById("logout-button");
-
-    if (!userRole) {
-      window.location.href = "index.html";
-    } else {
-      if (emailDisplay) {
-        emailDisplay.textContent = email || "User";
-      }
-
-      const pageType = dashboardContainer.classList.contains("admin-dashboard")
-        ? "admin"
-        : dashboardContainer.classList.contains("manager-dashboard")
-        ? "manager"
-        : "user";
-
-      if (pageType !== userRole) {
-        alert(
-          "Unauthorized access. You are being redirected to your assigned dashboard."
-        );
-        switch (userRole) {
-          case "admin":
-            window.location.href = "admin.html";
-            break;
-          case "manager":
-            window.location.href = "manager.html";
-            break;
-          default:
-            window.location.href = "user.html";
+  // Google Sign-in implementation
+  function handleCredentialResponse(response) {
+    console.log("Encoded JWT ID token: " + response.credential);
+    fetch('/auth/google', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ idToken: response.credential }),
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.token) {
+        localStorage.setItem('authToken', data.token);
+        console.log('Google sign-in successful, JWT stored:', data.token);
+      } else if (data.message) {
+        console.error('Google sign-in error:', data.message);
+        const googleSignInButton = document.getElementById("google-sign-in-button");
+        if (googleSignInButton) {
+            googleSignInButton.textContent = data.message; // Display error on the button
+            googleSignInButton.classList.add('error'); // Optionally add a CSS class for styling
         }
       }
-    }
-
-    if (logoutButton) {
-      logoutButton.addEventListener("click", () => {
-        localStorage.removeItem("userRole"); // Clear role on logout
-        localStorage.removeItem("email"); // Clear email
-        window.location.href = "index.html"; // Redirect to login page
-      });
-    }
+    });
   }
+
+  function initializeGoogleSignIn(clientId) {
+    console.log("Initializing Google Sign-In with Client ID:", clientId);
+    google.accounts.id.initialize({
+      client_id: clientId,
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("google-sign-in-button"),
+      { theme: "outline", size: "large" }
+    );
+    google.accounts.id.prompt();
+  }
+
+  fetch('/api/config')
+    .then(response => response.json())
+    .then(config => {
+      initializeGoogleSignIn(config.googleClientId);
+    })
+    .catch(error => {
+      console.error("Error fetching Google Client ID:", error);
+      // Optionally display an error message to the user
+    });
 });
