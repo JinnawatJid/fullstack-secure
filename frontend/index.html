@@ -11,7 +11,7 @@
         <h1>Login</h1>
         <form id="login-form">
             <div class="input-group">
-                <label for="username">Email</label>
+                <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
             </div>
             <div class="input-group">
@@ -20,9 +20,17 @@
             </div>
             <div id="error-message" class="error-message"></div>
             <button type="submit" class="login-button">Login</button>
-            <p>Don't have an account? <a href="register.html">Register here</a></p>  </div>
+            <p>Don't have an account? <a href="register.html">Register here</a></p>
         </form>
+
+        <div class="google-signin-container">
+            <hr>
+            <p>Or sign in with:</p>
+            <div id="google-sign-in-button"></div>
+        </div>
     </div>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const loginLimiter = require("../utils/rateLimiter");
+
+const JWT_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
 module.exports = (dbPool) => {
   router.post(
@@ -35,7 +38,19 @@ module.exports = (dbPool) => {
         }
 
         console.log("Login successful for:", email, "Role:", user.role);
-        res.status(200).json({ role: user.role, email: user.email });
+
+        // Generate JWT
+        const token = jwt.sign(
+          { userId: user.id, email: user.email, role: user.role }, // Payload
+          JWT_SECRET, // Secret key
+          { expiresIn: "1h" } // Token expiration time
+        );
+
+        res.status(200).json({
+          message: "Login successful",
+          token: token,
+          role: user.role,
+        });
       } catch (error) {
         console.error("Login database error", error);
         return res
