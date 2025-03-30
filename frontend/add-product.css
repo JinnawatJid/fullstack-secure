@@ -1,94 +1,199 @@
-/* This CSS combines and standardizes the styling for both add-product and edit-product pages */
+/* profile.css */
+/* This CSS styles the profile page to be similar to seller.css */
 
-.dashboard-container.seller-dashboard {
-    background-color: #fffde7; /* Light Yellow - consistent with seller dashboard */
-    max-width: 800px;
-    padding: 20px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
+/* Reset and Base Styles (Inherit from seller.css) */
+/* Ensure seller.css is loaded or these styles are in a global stylesheet */
+/*
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
+body {
+    background-color: #f8f9ff;
+    color: #1d2238;
+    line-height: 1.6;
+}
+*/
+
+.dashboard-container.profile-dashboard {
+    background-color: #f8f9ff; /* Match seller.css body background */
+    max-width: 1200px; /* Match seller.css container max-width */
+    padding: 30px 20px; /* Match seller.css container padding */
+    margin: 30px auto; /* Match seller.css container margin top/bottom */
+    font-family: 'Inter', sans-serif; /* Match seller.css font-family */
+    color: #1d2238; /* Match seller.css body color */
+}
+
+/* Header Styles */
 .dashboard-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    align-items: flex-start; /* Adjust alignment to match seller.css */
+    margin-bottom: 30px; /* Match seller.css margin-bottom */
 }
 
 .dashboard-header h1 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
+    font-size: 28px; /* Match seller.css header-left h1 */
+    font-weight: 700; /* Match seller.css header-left h1 */
+    color: #1d2238; /* Match seller.css header-left h1 */
+    margin-bottom: 5px; /* Match seller.css header-left h1 margin */
 }
 
-.product-list {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    margin-bottom: 20px;
+.dashboard-header p {
+    color: #8a93ad; /* Match seller.css header-left p */
+    font-size: 14px; /* Match seller.css header-left p */
 }
 
-.product-list h2 {
+/* Profile Form */
+.profile-form {
+    background-color: #ffffff; /* Keep white background for content area */
+    border-radius: 12px; /* Match seller.css card border-radius */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Match seller.css card box-shadow */
+    padding: 24px; /* Adjust padding to match seller.css card padding */
+    margin-bottom: 30px; /* Adjust margin-bottom */
+}
+
+.profile-form h2 {
     margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 18px;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    margin-bottom: 20px; /* Adjust margin-bottom */
+    font-size: 18px; /* Keep existing font size */
+    font-weight: 600; /* Match seller.css card title */
+    color: #1d2238; /* Match seller.css card title color */
+    border-bottom: 1px solid #f0f1f8; /* Match seller.css card border */
+    padding-bottom: 16px; /* Adjust padding-bottom */
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Adjust margin-bottom */
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px; /* Adjust margin-bottom */
     font-weight: 500;
-    color: #555;
+    color: #1d2238; /* Use seller.css text color */
+    font-size: 14px; /* Match seller.css form label font size */
 }
 
 .form-group input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 10px; /* Adjust padding to match seller.css input */
+    border: 1px solid #e9eaf4; /* Match seller.css input border */
+    border-radius: 6px; /* Match seller.css input border-radius */
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 14px; /* Match seller.css input font size */
+    transition: all 0.2s ease; /* Match seller.css input transition */
+    color: #1d2238; /* Ensure text color matches */
 }
 
 .form-group input:focus {
-    border-color: #5cb85c;
+    border-color: #4a6cf7; /* Match seller.css focus color */
     outline: none;
-    box-shadow: 0 0 5px rgba(92, 184, 92, 0.3);
+    box-shadow: 0 0 5px rgba(74, 108, 247, 0.3); /* Match seller.css focus box-shadow */
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    gap: 10px; /* Adjust gap */
+    margin-top: 30px;
+}
+
+.save-button, .cancel-button {
+    padding: 8px 16px; /* Match seller.css button padding */
+    border: none;
+    border-radius: 6px; /* Match seller.css button border-radius */
+    cursor: pointer;
+    font-size: 14px; /* Match seller.css button font size */
+    font-weight: 500; /* Match seller.css button font weight */
+    transition: background-color 0.2s ease; /* Match seller.css button transition */
 }
 
 .save-button {
-    background-color: #5cb85c;
+    background-color: #4a6cf7; /* Match seller.css primary button color */
     color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-right: 10px;
 }
 
 .save-button:hover {
-    background-color: #4cae4c;
+    background-color: #3b5de7; /* Match seller.css primary button hover */
 }
 
 .cancel-button {
-    background-color: #f44336;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+    background-color: #ffffff; /* Match seller.css secondary button background */
+    color: #8a93ad; /* Match seller.css secondary button color */
+    border: 1px solid #e9eaf4; /* Match seller.css secondary button border */
 }
 
 .cancel-button:hover {
-    background-color: #d32f2f;
+    color: #1d2238; /* Match seller.css secondary button hover color */
+    border-color: #d0d2e0; /* Match seller.css secondary button hover border */
+}
+
+/* Modal Styles (Keep as is or adjust based on seller.css modal) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px 24px;
+    border: 1px solid #e9eaf4;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f1f8;
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d2238;
+}
+
+.close-modal {
+    color: #8a93ad;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
 }

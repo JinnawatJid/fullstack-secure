@@ -1,105 +1,314 @@
-.seller-dashboard {
-    background-color: #fffde7; /* Light Yellow */
-    max-width: 800px;
-    padding: 20px;
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
+body {
+    background-color: #f8f9ff;
+    color: #1d2238;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+/* Header Styles */
 .dashboard-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    align-items: flex-start;
+    margin-bottom: 30px;
 }
 
+.header-left h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1d2238;
+    margin-bottom: 5px;
+}
+
+.header-left p {
+    color: #8a93ad;
+    font-size: 14px;
+}
+
+.header-right button {
+    background-color: #ffffff;
+    border: 1px solid #e9eaf4;
+    color: #8a93ad;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.header-right button:hover {
+    color: #1d2238;
+    border-color: #d0d2e0;
+}
+
+/* Stats Cards */
 .stats-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
+    gap: 24px;
+    margin-bottom: 30px;
 }
 
 .stat-card {
-    background-color: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 10px 15px -3px rgba(74, 108, 247, 0.08);
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.stat-card h3 {
-    margin-top: 0;
-    color: #333;
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 20px -3px rgba(74, 108, 247, 0.1);
 }
 
-.stat-card .value {
-    font-size: 24px;
-    font-weight: bold;
-    color: #5cb85c;
-}
-
-.product-list {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    margin-bottom: 20px;
-}
-
-.product-list h2 {
-    margin-top: 0;
-    margin-bottom: 15px;
+.stat-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 }
 
-.product-list table {
+.stat-card-title {
+    color: #8a93ad;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.stat-card-icon {
+    color: #4a6cf7;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-card-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1d2238;
+}
+
+/* Products Card */
+.products-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.products-header {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f1f8;
+}
+
+.products-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d2238;
+}
+
+.add-product-btn {
+    background-color: #4a6cf7;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.add-product-btn:hover {
+    background-color: #3b5de7;
+}
+
+/* Table Styles */
+.products-table-container {
+    overflow-x: auto;
+}
+
+.products-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.product-list th, .product-list td {
-    padding: 10px;
+.products-table th {
+    background-color: #f9fafc;
+    color: #8a93ad;
+    font-weight: 500;
+    padding: 12px 16px;
+    font-size: 14px;
+}
+
+/* ปรับตำแหน่งข้อความในส่วนหัวของแต่ละคอลัมน์ */
+.products-table th:nth-child(1) { /* คอลัมน์ ID */
+    text-align: center;
+}
+
+.products-table th:nth-child(2) { /* คอลัมน์ Image */
+    text-align: center;
+}
+
+.products-table th:nth-child(3) { /* คอลัมน์ Name */
     text-align: left;
-    border-bottom: 1px solid #ddd;
 }
 
-.product-list th {
-    background-color: #f4f4f4;
+.products-table th:nth-child(4) { /* คอลัมน์ Price */
+    text-align: right;
 }
 
-.add-product-btn {
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
+.products-table th:nth-child(5) { /* คอลัมน์ Quantity */
+    text-align: right;
 }
 
-.action-btn {
-    background-color: #f0f0f0;
-    border: none;
-    padding: 5px 8px;
-    border-radius: 4px;
-    margin-right: 5px;
-    cursor: pointer;
+.products-table th:nth-child(6) { /* คอลัมน์ Actions */
+    text-align: center;
+}
+
+.products-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f1f8;
+    font-size: 14px;
+}
+
+/* จัดตำแหน่งข้อความในแต่ละคอลัมน์ */
+.products-table td:nth-child(1) { /* คอลัมน์ ID */
+    text-align: center;
+}
+
+.products-table td:nth-child(2) { /* คอลัมน์ Image */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.products-table td:nth-child(2) img { /* ถ้าคุณมี tag <img> ในเซลล์ */
+    max-width: 100%;
+    height: auto;
+}
+
+.products-table td:nth-child(3) { /* คอลัมน์ Name */
+    text-align: left;
+}
+
+.products-table td:nth-child(4) { /* คอลัมน์ Price */
+    text-align: right;
+}
+
+.products-table td:nth-child(5) { /* คอลัมน์ Quantity */
+    text-align: right;
+}
+
+.products-table td:nth-child(6) { /* คอลัมน์ Actions */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.product-image {
+    width: 40px;
+    height: 40px;
+    background-color: #f7f8fc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.product-placeholder {
+    color: #c4c9d9;
+    font-size: 12px;
+}
+
+.product-price {
+    color: #4a6cf7;
+    font-weight: 500;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
 }
 
 .edit-btn {
-    color: #2196F3;
+    background-color: #ffffff; /* Changed to white */
+    color: #007bff; /* Blue for Edit */
+    border: 1px solid #007bff; /* Added blue border */
+    border-radius: 6px;
+    width: auto; /* Adjust width to content */
+    height: auto; /* Adjust height to content */
+    padding: 6px 12px; /* Added padding */
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex; /* Changed to inline-flex */
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .delete-btn {
-    color: #f44336;
+    background-color: #ffffff; /* Changed to white */
+    color: #dc3545; /* Red for Delete */
+    border: 1px solid #dc3545; /* Added red border */
+    border-radius: 6px;
+    width: auto; /* Adjust width to content */
+    height: auto; /* Adjust height to content */
+    padding: 6px 12px; /* Added padding */
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex; /* Changed to inline-flex */
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.edit-btn:hover {
+    background-color: #007bff; /* Blue background on hover */
+    color: white; /* White text on hover */
+}
+
+.delete-btn:hover {
+    background-color: #dc3545; /* Red background on hover */
+    color: white; /* White text on hover */
 }
 
 /* Modal Styles */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 100;
     left: 0;
     top: 0;
     width: 100%;
@@ -111,66 +320,45 @@
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
+    padding: 20px 24px;
+    border: 1px solid #e9eaf4;
+    border-radius: 12px;
     width: 80%;
     max-width: 500px;
-    border-radius: 8px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f1f8;
 }
 
-.form-group {
-    margin-bottom: 15px;
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d2238;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.form-buttons {
-    text-align: right;
-}
-
-.cancel-btn {
-    background-color: #f44336;
-    color: white;
-    padding: 8px 12px;
+.close-modal {
+    color: #8a93ad;
+    background: none;
     border: none;
-    border-radius: 4px;
-    margin-right: 10px;
+    font-size: 24px;
     cursor: pointer;
+    line-height: 1;
 }
 
-.save-btn, .close-btn {
-    background-color: #5cb85c;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.modal-body {
+    max-height: 400px;
+    overflow-y: auto;
 }
 
-/* Sales Table Styles */
-.sales-table-container {
-    margin-bottom: 20px;
-}
-
+/* Sales Table in Modal */
 .sales-table {
     width: 100%;
     border-collapse: collapse;
@@ -179,17 +367,126 @@
 .sales-table th, .sales-table td {
     padding: 8px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #f0f1f8;
 }
 
 .sales-table th {
-    background-color: #f4f4f4;
+    color: #8a93ad;
+    font-weight: 500;
+    background-color: #f9fafc;
 }
 
-.sales-table .amount {
+.amount-column {
     text-align: right;
 }
 
 .sales-table tfoot {
     font-weight: bold;
+}
+
+/* Best Seller Modal Styles */
+.best-seller-content {
+    text-align: center;
+    padding: 20px 10px;
+}
+
+.best-seller-icon {
+    margin: 0 auto 20px;
+    display: block;
+    font-size: 32px;
+    color: #4a6cf7;
+    width: 60px;
+    height: 60px;
+    background-color: rgba(74, 108, 247, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.best-seller-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #1d2238;
+}
+
+.best-seller-subtitle {
+    color: #8a93ad;
+    margin-bottom: 20px;
+}
+
+.best-seller-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    text-align: center;
+}
+
+.stat-item {
+    padding: 10px;
+}
+
+.stat-label {
+    color: #8a93ad;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1d2238;
+}
+
+/* VAT Modal Styles */
+.tax-item {
+    margin-bottom: 12px;
+    padding: 12px;
+    background-color: rgba(74, 108, 247, 0.05);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tax-item.highlight {
+    background-color: rgba(92, 184, 92, 0.1);
+}
+
+.tax-label {
+    color: #8a93ad;
+}
+
+.tax-value {
+    font-weight: 500;
+}
+
+.tax-value.accent {
+    font-weight: 700;
+    color: #4a6cf7;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+    }
+
+    .header-right {
+        margin-top: 16px;
+    }
+
+    .products-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
 }

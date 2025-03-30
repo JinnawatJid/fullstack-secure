@@ -4,62 +4,169 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Dashboard</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="seller.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="dashboard-container seller-dashboard">
+    <div class="container">
         <div class="dashboard-header">
-            <h1>Seller Dashboard</h1>
-            <button id="logout-button" class="logout-button">Logout</button>
+            <div class="header-left">
+                <h1>Seller Dashboard</h1>
+                <p>Welcome, <span id="username-display">Seller</span>!</p>
+            </div>
+            <div class="header-right">
+                <button id="logout-btn">
+                    <span class="icon">&#10005;</span>
+                    Logout
+                </button>
+            </div>
         </div>
-
-        <p>Welcome, <span id="username-display"></span>!</p>
 
         <div class="stats-container">
             <div class="stat-card" onclick="showSalesDetails()">
-                <h3>Total Sales</h3>
-                <div class="value" id="total-sales-value"></div>
+                <div class="stat-card-header">
+                    <div class="stat-card-title">Total Sales</div>
+                    <div class="stat-card-icon">$</div>
+                </div>
+                <div class="stat-card-value" id="total-sales-value">--</div>
             </div>
             <div class="stat-card" onclick="showBestSellerDetails()">
-                <h3>Best Seller</h3>
-                <div class="value" id="best-seller-value"></div>
+                <div class="stat-card-header">
+                    <div class="stat-card-title">Best Seller</div>
+                    <div class="stat-card-icon">★</div>
+                </div>
+                <div class="stat-card-value" id="best-seller-value">--</div>
             </div>
             <div class="stat-card" onclick="showTaxDetails()">
-                <h3>VAT (7%)</h3>
-                <div class="value" id="vat-value"></div>
+                <div class="stat-card-header">
+                    <div class="stat-card-title">VAT (7%)</div>
+                    <div class="stat-card-icon">%</div>
+                </div>
+                <div class="stat-card-value" id="vat-value">--</div>
             </div>
         </div>
 
-        <div class="product-list">
-            <h2>
-                My Products
-                <a href="/add-product.html" class="add-product-btn">+ Add Product</a>
-            </h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="product-table-body">
-                </tbody>
-            </table>
+        <div class="products-card">
+            <div class="products-header">
+                <div class="products-title">My Products</div>
+                <button class="add-product-btn" id="add-product-btn">
+                    <span class="icon">+</span>
+                    Add Product
+                </button>
+            </div>
+            <div class="products-table-container">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-table-body">
+                        <!-- Products will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <div id="product-modal" class="modal">
+    <!-- Sales Details Modal -->
+    <div id="sales-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Sales Details</div>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="sales-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th class="amount-column">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Standing Desk</td>
+                            <td>8</td>
+                            <td class="amount-column">฿3,599.92</td>
+                        </tr>
+                        <tr>
+                            <td>Ergonomic Chair</td>
+                            <td>12</td>
+                            <td class="amount-column">฿3,599.88</td>
+                        </tr>
+                        <tr>
+                            <td>Monitor Stand</td>
+                            <td>15</td>
+                            <td class="amount-column">฿1,199.85</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">Total</td>
+                            <td class="amount-column" id="modal-total-sales">฿0.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <div id="sales-details-modal" class="modal">
+    <!-- Best Seller Modal -->
+    <div id="bestseller-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Best Seller Details</div>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body best-seller-content">
+                <div class="best-seller-icon">★</div>
+                <h3 class="best-seller-title" id="modal-best-seller-title">Product Name</h3>
+                <p class="best-seller-subtitle">Top selling product this month</p>
+                <div class="best-seller-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Units Sold</div>
+                        <div class="stat-value" id="modal-units-sold">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Revenue</div>
+                        <div class="stat-value" id="modal-best-seller-revenue">฿0.00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- VAT Modal -->
+    <div id="vat-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">VAT Details</div>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tax-item">
+                    <span class="tax-label">Total Sales</span>
+                    <span class="tax-value" id="modal-vat-total-sales">฿0.00</span>
+                </div>
+                <div class="tax-item">
+                    <span class="tax-label">VAT Rate</span>
+                    <span class="tax-value">7%</span>
+                </div>
+                <div class="tax-item highlight">
+                    <span class="tax-label">VAT Amount</span>
+                    <span class="tax-value accent" id="modal-vat-amount">฿0.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="seller.js"></script>
 </body>
 </html>

@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // *** ดึง productID จาก URL Query Parameter ***
+    // Get productID from URL Query Parameter
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
 
     if (productId) {
         document.getElementById('product-id-display').textContent = productId;
 
-        // *** ดึงข้อมูลสินค้าจาก Backend API ***
+        // Fetch product data from Backend API
         fetch(`/seller/products/${productId}`)
             .then(response => {
                 if (!response.ok) {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(productData => {
-                // *** นำข้อมูลสินค้าใส่ใน Form ***
+                // Fill in the form with product data
                 document.getElementById('productName').value = productData.productName;
                 document.getElementById('productPrice').value = productData.price;
                 document.getElementById('productQuantity').value = productData.qty;
@@ -24,35 +24,33 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => {
                 console.error('Error fetching product details:', error);
                 alert('Failed to load product details. Please try again.');
-                window.location.href = '/seller.html'; // Redirect กลับหน้า seller dashboard หากโหลดข้อมูลไม่สำเร็จ
+                window.location.href = '/seller.html';
             });
-
-
     } else {
         alert('Product ID is missing.');
         window.location.href = '/seller.html';
     }
 
-    // *** ดักจับ Form Submit Event ***
+    // Handle form submission
     const editProductForm = document.getElementById('edit-product-form');
     editProductForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // ป้องกัน Form Submit แบบ Default (Redirect)
+        event.preventDefault();
 
-        // *** ดึงข้อมูลจาก Form ***
+        // Get form data
         const productName = document.getElementById('productName').value;
         const productPrice = document.getElementById('productPrice').value;
         const productQuantity = document.getElementById('productQuantity').value;
         const productImage = document.getElementById('productImage').value;
 
-        // *** เรียก API Endpoint สำหรับ Update สินค้า (PUT Request) ***
-        fetch(`/seller/products/${productId}`, { // ใช้ productId ที่ดึงมาจาก URL แล้ว
-            method: 'PUT', // ใช้ HTTP PUT Method สำหรับ Update
+        // Call API to update product (match parameter names with what server.js expects)
+        fetch(`/seller/products/${productId}`, {
+            method: 'PUT',
             headers: {
-                'Content-Type': 'application/json' // บอก Backend ว่าส่งข้อมูล JSON ไป
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ // แปลง Object ข้อมูลสินค้าเป็น JSON String
+            body: JSON.stringify({
                 productName: productName,
-                productPrice: productPrice,
+                productPrice: productPrice, 
                 productQuantity: productQuantity,
                 productImage: productImage
             })
@@ -64,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            alert(data.message); // แสดง Success Message จาก Backend
-            window.location.href = '/seller.html'; // Redirect กลับไปหน้า Seller Dashboard หลังจาก Update สำเร็จ
+            alert(data.message);
+            window.location.href = '/seller.html';
         })
         .catch(error => {
             console.error('Error updating product:', error);
