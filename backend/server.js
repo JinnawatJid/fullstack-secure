@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -18,6 +20,7 @@ const credentials = {
 
 const httpsServer = https.createServer(credentials, app);
 
+const googleLoginRoute = require('./routes/googleLogin');
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
 const dbPool = require('./db');
@@ -28,6 +31,11 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.use('/login', loginRoute(dbPool));
 app.use('/register', registerRoute(dbPool));
+app.use('/auth/google', googleLoginRoute(dbPool));
+
+app.get('/api/config', (req, res) => {
+  res.json({ googleClientId: process.env.GOOGLE_CLIENT_ID });
+});
 
 httpsServer.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
