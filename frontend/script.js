@@ -123,12 +123,34 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.token) {
         localStorage.setItem('authToken', data.token);
         console.log('Google sign-in successful, JWT stored:', data.token);
+
+        // Extract the user role from the response and redirect
+        const userRole = data.role;
+        console.log("User Role received from Google sign-in:", userRole);
+        switch (userRole) {
+          case "Admin":
+            console.log("Redirecting to /Admin/dashboard.html");
+            window.location.href = "/Admin/dashboard.html";
+            break;
+          case "Seller":
+            console.log("Redirecting to /Seller/shop.html");
+            window.location.href = "/Seller/shop.html";
+            break;
+          case "Member":
+            console.log("Redirecting to /Member/catalog.html");
+            window.location.href = "/Member/catalog.html";
+            break;
+          default:
+            console.log("Default redirection to /Member/catalog.html");
+            window.location.href = "/Member/catalog.html";
+            break;
+        }
       } else if (data.message) {
         console.error('Google sign-in error:', data.message);
         const googleSignInButton = document.getElementById("google-sign-in-button");
         if (googleSignInButton) {
-            googleSignInButton.textContent = data.message; // Display error on the button
-            googleSignInButton.classList.add('error'); // Optionally add a CSS class for styling
+          googleSignInButton.textContent = data.message; // Display error on the button
+          googleSignInButton.classList.add('error'); // Optionally add a CSS class for styling
         }
       }
     });
