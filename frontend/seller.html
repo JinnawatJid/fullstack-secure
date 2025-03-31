@@ -67,14 +67,12 @@
                         </tr>
                     </thead>
                     <tbody id="product-table-body">
-                        <!-- Products will be loaded dynamically -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Sales Details Modal -->
     <div id="sales-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -118,7 +116,6 @@
         </div>
     </div>
 
-    <!-- Best Seller Modal -->
     <div id="bestseller-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -143,7 +140,6 @@
         </div>
     </div>
 
-    <!-- VAT Modal -->
     <div id="vat-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -163,6 +159,73 @@
                     <span class="tax-label">VAT Amount</span>
                     <span class="tax-value accent" id="modal-vat-amount">฿0.00</span>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="add-product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Add New Product</div>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-product-form">
+                    <div class="form-group">
+                        <label for="productName">Product Name:</label>
+                        <input type="text" id="productName" name="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Price:</label>
+                        <input type="number" id="productPrice" name="productPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productQuantity">Quantity:</label>
+                        <input type="number" id="productQuantity" name="productQuantity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage">Image URL:</label>
+                        <input type="text" id="productImage" name="productImage">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="save-button">Add Product</button>
+                        <button type="button" class="cancel-button">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Edit Product</div>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-product-form">
+                    <input type="hidden" id="edit-product-id">
+                    <div class="form-group">
+                        <label for="edit-productName">Product Name:</label>
+                        <input type="text" id="edit-productName" name="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-productPrice">Price:</label>
+                        <input type="number" id="edit-productPrice" name="productPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-productQuantity">Quantity:</label>
+                        <input type="number" id="edit-productQuantity" name="productQuantity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-productImage">Image URL:</label>
+                        <input type="text" id="edit-productImage" name="productImage">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="save-button">Save Changes</button>
+                        <button type="button" class="cancel-button">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

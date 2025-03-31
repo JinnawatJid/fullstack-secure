@@ -168,27 +168,27 @@ body {
 }
 
 /* ปรับตำแหน่งข้อความในส่วนหัวของแต่ละคอลัมน์ */
-.products-table th:nth-child(1) { /* คอลัมน์ ID */
+.products-table th:nth-child(1) {
     text-align: center;
 }
 
-.products-table th:nth-child(2) { /* คอลัมน์ Image */
+.products-table th:nth-child(2) {
     text-align: center;
 }
 
-.products-table th:nth-child(3) { /* คอลัมน์ Name */
+.products-table th:nth-child(3) {
     text-align: left;
 }
 
-.products-table th:nth-child(4) { /* คอลัมน์ Price */
+.products-table th:nth-child(4) {
     text-align: right;
 }
 
-.products-table th:nth-child(5) { /* คอลัมน์ Quantity */
+.products-table th:nth-child(5) {
     text-align: right;
 }
 
-.products-table th:nth-child(6) { /* คอลัมน์ Actions */
+.products-table th:nth-child(6) {
     text-align: center;
 }
 
@@ -199,35 +199,35 @@ body {
 }
 
 /* จัดตำแหน่งข้อความในแต่ละคอลัมน์ */
-.products-table td:nth-child(1) { /* คอลัมน์ ID */
+.products-table td:nth-child(1) {
     text-align: center;
 }
 
-.products-table td:nth-child(2) { /* คอลัมน์ Image */
+.products-table td:nth-child(2) {
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.products-table td:nth-child(2) img { /* ถ้าคุณมี tag <img> ในเซลล์ */
+.products-table td:nth-child(2) img {
     max-width: 100%;
     height: auto;
 }
 
-.products-table td:nth-child(3) { /* คอลัมน์ Name */
+.products-table td:nth-child(3) {
     text-align: left;
 }
 
-.products-table td:nth-child(4) { /* คอลัมน์ Price */
+.products-table td:nth-child(4) {
     text-align: right;
 }
 
-.products-table td:nth-child(5) { /* คอลัมน์ Quantity */
+.products-table td:nth-child(5) {
     text-align: right;
 }
 
-.products-table td:nth-child(6) { /* คอลัมน์ Actions */
+.products-table td:nth-child(6) {
     text-align: center;
     display: flex;
     justify-content: center;
@@ -263,52 +263,52 @@ body {
 }
 
 .edit-btn {
-    background-color: #ffffff; /* Changed to white */
-    color: #007bff; /* Blue for Edit */
-    border: 1px solid #007bff; /* Added blue border */
+    background-color: #ffffff;
+    color: #007bff;
+    border: 1px solid #007bff;
     border-radius: 6px;
-    width: auto; /* Adjust width to content */
-    height: auto; /* Adjust height to content */
-    padding: 6px 12px; /* Added padding */
+    width: auto;
+    height: auto;
+    padding: 6px 12px;
     font-size: 14px;
     cursor: pointer;
-    display: inline-flex; /* Changed to inline-flex */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .delete-btn {
-    background-color: #ffffff; /* Changed to white */
-    color: #dc3545; /* Red for Delete */
-    border: 1px solid #dc3545; /* Added red border */
+    background-color: #ffffff;
+    color: #dc3545;
+    border: 1px solid #dc3545;
     border-radius: 6px;
-    width: auto; /* Adjust width to content */
-    height: auto; /* Adjust height to content */
-    padding: 6px 12px; /* Added padding */
+    width: auto;
+    height: auto;
+    padding: 6px 12px;
     font-size: 14px;
     cursor: pointer;
-    display: inline-flex; /* Changed to inline-flex */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .edit-btn:hover {
-    background-color: #007bff; /* Blue background on hover */
-    color: white; /* White text on hover */
+    background-color: #007bff;
+    color: white;
 }
 
 .delete-btn:hover {
-    background-color: #dc3545; /* Red background on hover */
-    color: white; /* White text on hover */
+    background-color: #dc3545;
+    color: white;
 }
 
 /* Modal Styles */
 .modal {
     display: none;
     position: fixed;
-    z-index: 100;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
@@ -318,151 +318,189 @@ body {
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px 24px;
-    border: 1px solid #e9eaf4;
-    border-radius: 12px;
-    width: 80%;
-    max-width: 500px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
     position: relative;
+    background-color: #fff;
+    margin: 5% auto; /* Reduced margin to make it longer */
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    width: 80%;
+    max-width: 600px;
+    animation: modalOpen 0.3s ease-out;
+}
+
+@keyframes modalOpen {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
 }
 
 .modal-header {
+    padding: 16px 24px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #f0f1f8;
 }
 
 .modal-title {
     font-size: 18px;
     font-weight: 600;
-    color: #1d2238;
+    color: #333;
 }
 
 .close-modal {
-    color: #8a93ad;
     background: none;
     border: none;
     font-size: 24px;
+    font-weight: bold;
+    color: #888;
     cursor: pointer;
-    line-height: 1;
+}
+
+.close-modal:hover {
+    color: #333;
 }
 
 .modal-body {
-    max-height: 400px;
+    padding: 24px;
+    max-height: 70vh; /* make the modal body scrollable if content overflows*/
     overflow-y: auto;
 }
 
-/* Sales Table in Modal */
-.sales-table {
-    width: 100%;
-    border-collapse: collapse;
+.form-group {
+    margin-bottom: 16px;
 }
 
-.sales-table th, .sales-table td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #f0f1f8;
-}
-
-.sales-table th {
-    color: #8a93ad;
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
     font-weight: 500;
-    background-color: #f9fafc;
 }
 
-.amount-column {
-    text-align: right;
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
-.sales-table tfoot {
-    font-weight: bold;
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 24px;
 }
 
-/* Best Seller Modal Styles */
+.save-button, .cancel-button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.save-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+.cancel-button {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ced4da;
+}
+
+.cancel-button:hover {
+    background-color: #e9ecef;
+}
+
+/* Form styling */
+#add-product-form, #edit-product-form {
+    max-width: 100%;
+}
+
+/* Tax details styling */
+.tax-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.tax-item:last-child {
+    border-bottom: none;
+}
+
+.tax-label {
+    font-weight: 500;
+}
+
+.tax-value {
+    font-weight: 600;
+}
+
+.highlight {
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 4px;
+    margin-top: 12px;
+}
+
+.accent {
+    color: #4CAF50;
+    font-size: 18px;
+}
+
+/* Best seller styling */
 .best-seller-content {
     text-align: center;
-    padding: 20px 10px;
+    padding: 20px;
 }
 
 .best-seller-icon {
-    margin: 0 auto 20px;
-    display: block;
-    font-size: 32px;
-    color: #4a6cf7;
-    width: 60px;
-    height: 60px;
-    background-color: rgba(74, 108, 247, 0.1);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 40px;
+    color: gold;
+    margin-bottom: 10px;
 }
 
 .best-seller-title {
     font-size: 20px;
-    margin-bottom: 8px;
-    color: #1d2238;
+    margin-bottom: 5px;
 }
 
 .best-seller-subtitle {
-    color: #8a93ad;
+    color: #777;
     margin-bottom: 20px;
 }
 
 .best-seller-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
 }
 
 .stat-item {
-    padding: 10px;
+    text-align: center;
 }
 
 .stat-label {
-    color: #8a93ad;
     font-size: 14px;
-    margin-bottom: 4px;
+    color: #777;
+    margin-bottom: 5px;
 }
 
 .stat-value {
-    font-size: 20px;
-    font-weight: bold;
-    color: #1d2238;
-}
-
-/* VAT Modal Styles */
-.tax-item {
-    margin-bottom: 12px;
-    padding: 12px;
-    background-color: rgba(74, 108, 247, 0.05);
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.tax-item.highlight {
-    background-color: rgba(92, 184, 92, 0.1);
-}
-
-.tax-label {
-    color: #8a93ad;
-}
-
-.tax-value {
-    font-weight: 500;
-}
-
-.tax-value.accent {
-    font-weight: 700;
-    color: #4a6cf7;
+    font-size: 24px;
+    font-weight: 600;
 }
 
 /* Responsive Styles */
@@ -487,6 +525,6 @@ body {
 
     .modal-content {
         width: 95%;
-        margin: 10% auto;
+        margin: 5% auto; /* Adjusted margin for smaller screens */
     }
 }
