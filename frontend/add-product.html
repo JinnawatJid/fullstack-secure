@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="seller.css">
     <link rel="stylesheet" href="add-product.css">
+    <meta name="csrf-token" content="">
 </head>
 <body>
     <div class="dashboard-container seller-dashboard">
         <div class="dashboard-header">
             <h1>Add New Product</h1>
-        
         </div>
 
         <p>Welcome, <span id="username-display"></span>!</p>
@@ -36,6 +36,8 @@
                     <label for="productImage">Image URL:</label>
                     <input type="text" id="productImage" name="productImage">
                 </div>
+
+                <input type="hidden" id="csrf-input" name="_csrf" value="">
 
                 <button type="submit" class="save-button">Add Product</button>
                 <button type="button" class="cancel-button" onclick="window.location.href='/seller.html'">Cancel</button>
