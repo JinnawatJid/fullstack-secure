@@ -24,6 +24,8 @@ const googleLoginRoute = require('./routes/googleLogin');
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
 const dbPool = require('./db');
+const fetchUsersRoute = require('./routes/admin/fetchUsers');
+const fetchProductRoute = require('./routes/admin/fetchProduct');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -36,6 +38,9 @@ app.use('/auth/google', googleLoginRoute(dbPool));
 app.get('/api/config', (req, res) => {
   res.json({ googleClientId: process.env.GOOGLE_CLIENT_ID });
 });
+
+app.use('/api/getUsers', fetchUsersRoute);
+app.use('/api/getProduct', fetchProductRoute);
 
 httpsServer.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);

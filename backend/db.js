@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load environment variables if using .env file
+
 const { Pool } = require("pg");
 
 const pool = new Pool({
