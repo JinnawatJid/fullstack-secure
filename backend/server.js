@@ -1,32 +1,31 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-//const https = require('https');
-const http = require('http');
+const https = require('https');
 const fs = require('fs');
 
 const app = express();
 const port = 3000;
 
-// const privateKey = fs.readFileSync('./localhost-key.pem', 'utf8');
-// const certificate = fs.readFileSync('./localhost.pem', 'utf8');
+const privateKey = fs.readFileSync('./localhost-key.pem', 'utf8');
+const certificate = fs.readFileSync('./localhost.pem', 'utf8');
 
-// const credentials = {
-//     key: privateKey,
-//     cert: certificate
-//   };
+const credentials = {
+    key: privateKey,
+    cert: certificate
+  };
 
-//const httpsServer = https.createServer(credentials, app);
+const httpsServer = https.createServer(credentials, app);
 
-const httpServer = http.createServer(app);
-
-const cors = require('cors');
+const googleLoginRoute = require('./routes/googleLogin');
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
 const dbPool = require('./db');
-const fetchUsersRoute = require('./admin/fetchUsers');
-const fetchProductRoute = require('./admin/fetchProduct');
+const fetchUsersRoute = require('./routes/admin/fetchUsers');
+const fetchProductRoute = require('./routes/admin/fetchProduct');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -34,11 +33,15 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.use('/login', loginRoute(dbPool));
 app.use('/register', registerRoute(dbPool));
-app.use(cors()); // Allow frontend to fetch data
-app.use(express.json());
-app.use('/api', fetchUsersRoute);
-app.use('/api', fetchProductRoute);
+app.use('/auth/google', googleLoginRoute(dbPool));
 
-httpServer.listen(port, () => {
+app.get('/api/config', (req, res) => {
+  res.json({ googleClientId: process.env.GOOGLE_CLIENT_ID });
+});
+
+app.use('/api/getUsers', fetchUsersRoute);
+app.use('/api/getProduct', fetchProductRoute);
+
+httpsServer.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
 });

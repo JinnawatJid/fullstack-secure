@@ -1,6 +1,6 @@
 async function fetchUsers() {
     try {
-        const response = await fetch('http://localhost:3000/api/users');
+        const response = await fetch('https://localhost:3000/api/getUsers');
         const users = await response.json();
 
         console.log(users);  // Log the users to see what data you're receiving
@@ -25,7 +25,7 @@ async function fetchUsers() {
 
 async function fetchProduct() {
     try {
-        const response = await fetch('http://localhost:3000/api/product');
+        const response = await fetch('https://localhost:3000/api/getProduct');
         const product = await response.json();
 
         console.log(product); 
@@ -48,6 +48,9 @@ async function fetchProduct() {
     }
 }
 
-// Fetch users when page loads
-window.onload = fetchUsers;
-window.onload = fetchProduct;
+async function loadData() {
+    await fetchUsers();
+    await fetchProduct();
+  }
+  
+window.onload = loadData;
