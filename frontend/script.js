@@ -33,15 +33,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
           console.log("User Role received:", userRole);
           switch (userRole) {
-            case "admin":
+            case "Admin":
               console.log("Redirecting to /Admin/dashboard.html");
               window.location.href = "/Admin/dashboard.html";
               break;
-            case "seller":
+            case "Seller":
               console.log("Redirecting to /Seller/shop.html");
               window.location.href = "/Seller/shop.html";
               break;
-            case "member":
+            case "Member":
               console.log("Redirecting to /Member/catalog.html");
               window.location.href = "/Member/catalog.html";
               break;
