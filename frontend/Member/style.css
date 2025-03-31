@@ -1,0 +1,225 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+body::before {
+  content: "";
+  background-image: url("https://www.healthyeating.org/images/default-source/home-0.0/nutrition-topics-2.0/general-nutrition-wellness/2-2-2-3foodgroups_fruits_detailfeature.jpg?sfvrsn=64942d53_4");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -2;
+  /* Place background image further back */
+}
+
+body::after {
+  content: "";
+  background-color: grey;
+  /* Grey color layer */
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.4;
+  /* Transparency for the grey layer */
+  z-index: -1;
+  /* Place grey layer in front of background image, but behind content */
+}
+
+.login-container,
+.dashboard-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login-container {
+  width: 300px;
+}
+
+.dashboard-container {
+  width: 500px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.login-button,
+.logout-button {
+  background-color: #5cb85c; /* Green */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.login-button:hover,
+.logout-button:hover {
+  background-color: #4cae4c;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.success-message {
+  color: green;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  white-space: pre-line;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding-top: 70px; /* Adjust based on your navbar height */
+  background-color: #f9f9f9;
+}
+
+.catalog-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Force 4 columns */
+  gap: 20px;
+  justify-content: center; /* Center the whole grid in the container */
+  max-width: 1000px;
+  margin: 36px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.catalog-container > .product-box:nth-child(n+5) {
+  grid-column: span 2;
+}
+
+.product-box {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  text-align: center;
+  background-color: #fff;
+  transition: transform 0.2s ease-in-out;
+}
+
+.product-box:hover {
+  transform: scale(1.05);
+}
+
+.product-image {
+  max-width: 100%; /* Make the image width responsive within its container */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 160px; /* Set a maximum height if needed, adjust as desired */
+  margin-bottom: 10px;
+  border-radius: 4px;
+  display: block; /* Prevent extra space below inline images */
+  margin-left: auto;
+  margin-right: auto; /* Center the image horizontally */
+}
+
+.product-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.product-price {
+  color: #4caf50;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.product-description {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.loading-message,
+.error-message {
+  text-align: center;
+  padding: 20px;
+}
+
+.error-message {
+  color: red;
+}
+
+.price-button-container {
+  display: flex;
+  align-items: center; /* Vertically center items */
+  width: 100%;
+  margin-top: 10px; /* Add some spacing above the container */
+}
+
+.product-price {
+  width: 100%; /* Allocate 60% width for the price */
+  text-align: center; /* Center the price text */
+  margin-bottom: 12px; /* Remove default bottom margin */
+  margin-left: 15px;
+}
+
+.add-to-cart-button {
+  width: 20px; /* Allocate 40% width for the button */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 20px; /* Adjust max height as needed */
+  display: flex; /* Use flex to center the image within its container */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  cursor: pointer;
+}
+
+#user-dropdown {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000; /* Ensure it's above other elements */
+  min-width: 150px; /* Adjust as needed */
+  text-align: left;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #333;
+  display: block; /* Make links full width */
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
