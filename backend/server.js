@@ -8,10 +8,10 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-const loginRoute = require('./routes/auth/login');
-const registerRoute = require('./routes/auth/register');
-const dbPool = require('./config/db');
-const sellerDashboardRoute = require('./seller/Seller_index');
+const loginRoute = require('./routes/login');
+const registerRoute = require('./routes/register');
+const dbPool = require('./db');
+const sellerDashboardRoute = require('./routes/seller/Seller_index');
 const { sanitizeRequestBody } = require('./middleware/sanitizer');
 
 // Middleware
