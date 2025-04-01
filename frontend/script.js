@@ -1,100 +1,181 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // รับ element forms
-    const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("login-form")) {
+    const loginForm = document.getElementById("login-form");
+    const errorMessage = document.getElementById("error-message");
 
-    // จัดการ login form
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const emailInput = document.getElementById("email").value;
+      const passwordInput = document.getElementById("password").value;
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('error-message');
+      fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: emailInput, password: passwordInput }),
+      }) //ส่งแล้ว ได้ response กลับมา
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((err) => {
+              throw new Error(err.message);
+            });
+          }
+          return response.json();
+        }) //เอา response มาใช้
+        .then((data) => {
+          const userRole = data.role;
+          const token = data.token; // Extract the token from the response
 
-            try {
-                const response = await fetch('/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, password })
-                });
+          // Store the token in localStorage
+          localStorage.setItem('authToken', token);
+          console.log("JWT stored in localStorage:", token);
 
-                const data = await response.json();
-
-                if (response.ok) {
-                    // เข้าสู่ระบบสำเร็จ
-                    localStorage.setItem('user', JSON.stringify({ email: data.email, role: data.role }));
-
-                    // ลิงก์ไปยังหน้าหลักตามบทบาท
-                    if (data.role === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else if (data.role === 'seller') { // เปลี่ยนจาก manager เป็น seller
-                        window.location.href = 'seller.html'; // เปลี่ยนจาก manager.html เป็น seller.html
-                    } else {
-                        window.location.href = 'member.html';
-                    }
-                } else {
-                    // เข้าสู่ระบบล้มเหลว
-                    errorMessage.textContent = data.message;
-                    errorMessage.style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                errorMessage.textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์';
-                errorMessage.style.display = 'block';
-            }
+          console.log("User Role received:", userRole);
+          switch (userRole) {
+            case "Admin":
+              console.log("Redirecting to /Admin/dashboard.html");
+              window.location.href = "/Admin/dashboard.html";
+              break;
+            case "Seller":
+              console.log("Redirecting to /Seller/seller.html");
+              window.location.href = "/Seller/seller.html";
+              break;
+            case "Member":
+              console.log("Redirecting to /Member/catalog.html");
+              window.location.href = "/Member/catalog.html";
+              break;
+            default:
+              console.log(
+                "Default redirection to user.html (or adjust as needed)"
+              );
+              window.location.href = "user.html";
+          }
+        })
+        .catch((error) => {
+          errorMessage.textContent =
+            error.message || "Login failed. Please try again.";
         });
-    }
+    });
+  }
 
-    // จัดการ register form
-    if (registerForm) {
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+  if (document.getElementById("register-form")) {
+    const registerForm = document.getElementById("register-form");
+    const registerErrorMessage = document.getElementById(
+      "register-error-message"
+    );
+    const registerSuccessMessage = document.getElementById(
+      "register-success-message"
+    );
 
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            const role = document.getElementById('reg-role').value;
-            const errorMessage = document.getElementById('register-error-message');
-            const successMessage = document.getElementById('register-success-message');
+    registerForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const emailInput = document.getElementById("reg-email").value;
+      const passwordInput = document.getElementById("reg-password").value;
+      const roleInput = document.getElementById("reg-role").value;
 
-            try {
-                const response = await fetch('/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, password, role })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    // สมัครสมาชิกสำเร็จ
-                    successMessage.textContent = data.message;
-                    successMessage.style.display = 'block';
-                    errorMessage.style.display = 'none';
-
-                    // รีเซ็ตฟอร์ม
-                    registerForm.reset();
-
-                    // เปลี่ยนเส้นทางไปยังหน้าล็อกอินหลังจาก 2 วินาที
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 2000);
-                } else {
-                    // สมัครสมาชิกล้มเหลว
-                    errorMessage.textContent = data.message;
-                    errorMessage.style.display = 'block';
-                    successMessage.style.display = 'none';
-                }
-            } catch (error) {
-                console.error('Registration error:', error);
-                errorMessage.textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์';
-                errorMessage.style.display = 'block';
-                successMessage.style.display = 'none';
-            }
+      fetch("/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: emailInput,
+          password: passwordInput,
+          role: roleInput,
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((err) => {
+              throw new Error(err.message);
+            });
+          }
+          return response.json();
+        })
+        .then((data) => {
+          registerErrorMessage.textContent = "";
+          registerSuccessMessage.textContent =
+            "Registration successful!\nYou can now login.";
+        })
+        .catch((error) => {
+          registerSuccessMessage.textContent = "";
+          const errorMessages = error.message.split(". "); // Split error message string by ". "
+          const firstErrorMessage = errorMessages[0]; // Take the first error
+          registerErrorMessage.textContent =
+            firstErrorMessage || "Registration failed. Please try again.";
         });
-    }
+    });
+  }
+
+  // Google Sign-in implementation
+  function handleCredentialResponse(response) {
+    console.log("Encoded JWT ID token: " + response.credential);
+    fetch('/auth/google', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ idToken: response.credential }),
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.token) {
+        localStorage.setItem('authToken', data.token);
+        console.log('Google sign-in successful, JWT stored:', data.token);
+
+        // Extract the user role from the response and redirect
+        const userRole = data.role;
+        console.log("User Role received from Google sign-in:", userRole);
+        switch (userRole) {
+          case "Admin":
+            console.log("Redirecting to /Admin/dashboard.html");
+            window.location.href = "/Admin/dashboard.html";
+            break;
+          case "Seller":
+            console.log("Redirecting to /Seller/shop.html");
+            window.location.href = "/Seller/shop.html";
+            break;
+          case "Member":
+            console.log("Redirecting to /Member/catalog.html");
+            window.location.href = "/Member/catalog.html";
+            break;
+          default:
+            console.log("Default redirection to /Member/catalog.html");
+            window.location.href = "/Member/catalog.html";
+            break;
+        }
+      } else if (data.message) {
+        console.error('Google sign-in error:', data.message);
+        const googleSignInButton = document.getElementById("google-sign-in-button");
+        if (googleSignInButton) {
+          googleSignInButton.textContent = data.message; // Display error on the button
+          googleSignInButton.classList.add('error'); // Optionally add a CSS class for styling
+        }
+      }
+    });
+  }
+
+  function initializeGoogleSignIn(clientId) {
+    console.log("Initializing Google Sign-In with Client ID:", clientId);
+    google.accounts.id.initialize({
+      client_id: clientId,
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("google-sign-in-button"),
+      { theme: "outline", size: "large" }
+    );
+    google.accounts.id.prompt();
+  }
+
+  fetch('/api/config')
+    .then(response => response.json())
+    .then(config => {
+      initializeGoogleSignIn(config.googleClientId);
+    })
+    .catch(error => {
+      console.error("Error fetching Google Client ID:", error);
+      // Optionally display an error message to the user
+    });
 });

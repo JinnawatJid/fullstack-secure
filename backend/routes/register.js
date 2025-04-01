@@ -1,75 +1,69 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const validatePassword = require("../utils/passwordValidator");
 
 module.exports = (dbPool) => {
-    router.post("/", async (req, res) => {
-        const { email, password, role } = req.body;
+  router.post("/", async (req, res) => {
+    const { email, password, role } = req.body;
 
-        // แปลงค่า role ให้ตรงกับ ENUM ในฐานข้อมูล
-        let dbRole;
-        switch (role) {
-            case 'admin':
-                dbRole = 'Admin';
-                break;
-            case 'seller':
-                dbRole = 'Seller';
-                break;
-            default:
-                dbRole = 'Member';
-        }
+    console.log("Registration attempt for:", email, "Role:", role);
 
-        console.log("Registration attempt for:", email, "Role:", dbRole);
+    if (!email || !password || !role) {
+      return res
+        .status(400)
+        .json({ message: "Username, password, and role are required." });
+    }
 
-        if (!email || !password || !role) {
-            return res
-                .status(400)
-                .json({ message: "Email, password, and role are required." });
-        }
+    const passwordErrors = validatePassword(password);
 
-        try {
-            // ตรวจสอบว่า email มีอยู่แล้วหรือไม่
-            const checkEmailQuery = 'SELECT * FROM "User" WHERE "Email" = $1'; // Changed 'email' to '"Email"'
-            const checkEmailResult = await dbPool.query(checkEmailQuery, [email]);
+    if (passwordErrors.length > 0) {
+      console.log("Password errors:");
+      console.log(passwordErrors.join("\n"));
+      return res.status(400).json({ message: passwordErrors.join(" ") });
+    }
 
-            if (checkEmailResult.rows.length > 0) {
-                return res
-                    .status(409)
-                    .json({
-                        message: "Email already taken. Please choose a different email.",
-                    });
-            }
+    try {
+      const userCheckQuery = 'SELECT * FROM public."user" WHERE "email" = $1';
+      const userCheckResult = await dbPool.query(userCheckQuery, [email]);
 
-            // ทำการ hash รหัสผ่าน
-            const hashedPassword = await bcrypt.hash(password, 10);
+      if (userCheckResult.rows.length > 0) {
+        console.log("email already taken. Please choose a different email.");
+        return res.status(409).json({
+          message: "email already taken. Please choose a different email.",
+        });
+      }
 
-            // เพิ่มผู้ใช้ใหม่
-            const insertUserQuery = 'INSERT INTO "User" ("Email", "HashPassword", "Role") VALUES ($1, $2, $3) RETURNING *'; // Changed 'email' and 'hashpassword' to '"Email"' and '"HashPassword"'
-            const insertResult = await dbPool.query(insertUserQuery, [email, hashedPassword, dbRole]);
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-            const newUser = insertResult.rows[0];
+      const insertUserQuery =
+        'INSERT INTO public."user" ("email", "hashpassword", "role") VALUES ($1, $2, $3) RETURNING *';
+      const insertResult = await dbPool.query(insertUserQuery, [
+        email,
+        hashedPassword,
+        role,
+      ]);
 
-            console.log(
-                "Registration successful for:",
-                newUser.Email, // Changed newUser.email to newUser.Email
-                "Role:",
-                newUser.Role, // Changed newUser.role to newUser.Role
-                "ID:",
-                newUser.userID // Assuming your column name is still "userID"
-            );
+      const newUser = insertResult.rows[0];
 
-            res.status(201).json({
-                message: "User registered successfully!",
-                user: { email: newUser.Email, role: newUser.Role }, // Changed user.email and user.role
-            });
+      console.log(
+        "Registration successful for:",
+        newUser.email,
+        "Role:",
+        newUser.role
+      );
+      res.status(201).json({
+        message: "User registered successfully!",
+        user: { email: newUser.email, role: newUser.role },
+      });
+    } catch (error) {
+      console.error("Registration database error", error);
+      return res
+        .status(500)
+        .json({ message: "Registration failed due to server error." });
+    }
+  });
 
-        } catch (error) {
-            console.error("Registration error:", error);
-            res
-                .status(500)
-                .json({ message: "Registration failed due to server error." });
-        }
-    });
-
-    return router;
+  return router;
 };

@@ -7,22 +7,40 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="login-container">
-        <h1>Login</h1>
-        <form id="login-form">
-            <div class="input-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="login-button">Login</button>
-            <div id="error-message" class="error-message"></div>
-            <p>Don't have an account? <a href="register.html">Register here</a></p>
-        </form>
+
+<div class="navbar-container" style="position: fixed; top: 0; left: 0; width: 100%; background-color: #f4f4f4; padding: 10px; display: flex; align-items: center; justify-content: space-between; z-index: 999;">
+    <div class="navbar-logo" style="font-weight: 600; font-size: 32px; background: linear-gradient(90deg, #4CAF50 0%, #2E7D32 100%); -webkit-text-fill-color: transparent; -webkit-background-clip: text; background-clip: text;">SweetieFruits🍇</div>
+    <ul class="navbar" style="list-style: none; display: flex; gap: 20px; margin: 0; padding: 10px; align-items: center; margin-right: 20px;">
+        <li><a href="index.html" style="font-weight: bold; color: #4CAF50; text-decoration: none; padding: 8px 12px; transition: background 0.3s;">Catalog</a></li>
+        <li><a href="about.html" style="font-weight: bold; color: #4CAF50; text-decoration: none; padding: 8px 12px; transition: background 0.3s;">About</a></li>
+        <li><button style="background-color: #5cb85c !important; border-color: #5cb85c !important; color: white !important; font-weight: bold; text-decoration: none; padding: 8px 12px; transition: background 0.3s; border-radius: 4px;">Login</button></li>
+    </ul>
+</div>
+
+<div class="login-container">
+    <h1>Login</h1>
+    <form id="login-form">
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div id="error-message" class="error-message"></div>
+        <button type="submit" class="login-button">Login</button>
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
+    </form>
+
+    <div class="google-signin-container">
+        <hr>
+        <p>Or sign in with:</p>
+        <div id="google-sign-in-button"></div>
     </div>
-    <script src="script.js"></script>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="script.js"></script>
 </body>
 </html>

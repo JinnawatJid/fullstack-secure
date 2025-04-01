@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome, Administrator!</p>
+        <!-- <button id="logout-button" class="logout-button">Logout</button> -->
+
+        <!-- Dashboard Stats and Product Table -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h4 class="text-center">New Member</h4>
+                <canvas id="userChart" class="rounded shadow-sm"></canvas>
+            </div>
+            <div class="col-md-6">
+                <h4 class="text-center">Best Seller</h4>
+                <canvas id="salesChart" class="rounded shadow-sm"></canvas>
+            </div>
+        </div>
+
+        <div class="tablecard">
+            <h2>All Users</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table">
+                </tbody>
+            </table>
+        </div>
+        <div class="tablecard">
+            <h2>All Product</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                    </tr>
+                </thead>
+                <tbody id="product-table">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script> <!-- Move script to external file -->
+</body>
+<script>
+    // User Chart (Line Chart)
+    const ctxUser = document.getElementById('userChart').getContext('2d');
+    new Chart(ctxUser, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June'],
+            datasets: [{
+                label: 'New member',
+                data: [100, 120, 110, 90, 180, 170],
+                borderColor: '#007bff',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Sales Chart (Bar Chart)
+    const ctxSales = document.getElementById('salesChart').getContext('2d');
+    new Chart(ctxSales, {
+        type: 'bar',
+        data: {
+            labels: ['Apple', 'Strawberry', 'Orenge', 'Banana'],
+            datasets: [{
+                label: 'Quantity sold',
+                data: [72, 55, 39, 25],
+                backgroundColor: '#28a745',
+                borderColor: '#218838',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+</html>

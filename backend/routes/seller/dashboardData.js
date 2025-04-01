@@ -9,7 +9,7 @@ module.exports = (dbPool) => {
             const bestSeller = 'Apple (100 kg sold)';
             const vatAmount = '105';
 
-            const productListQuery = 'SELECT "productID" AS "ID", "productName" AS "Name", "price" AS "Price", "qty" AS "Quantity", "picURLs" AS "Image" FROM "Product"';
+            const productListQuery = 'SELECT "productid" AS "ID", "productname" AS "Name", "price" AS "Price", "qty" AS "Quantity", "picurls" AS "Image" FROM "product"';
             const productListResult = await dbPool.query(productListQuery);
 
             const products = productListResult.rows.map(product => {

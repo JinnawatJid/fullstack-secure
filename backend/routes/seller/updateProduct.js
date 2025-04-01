@@ -32,7 +32,7 @@ module.exports = (dbPool) => {
         }
 
         try {
-            const updateQuery = 'UPDATE "Product" SET "productName" = $1, "price" = $2, "qty" = $3, "picURLs" = $4 WHERE "productID" = $5';
+            const updateQuery = 'UPDATE "product" SET "productname" = $1, "price" = $2, "qty" = $3, "picurls" = $4 WHERE "productid" = $5';
             const results = await dbPool.query(updateQuery, [productName, productPrice, productQuantity, productImage, productId]);
 
             if (results.rowCount === 0) {

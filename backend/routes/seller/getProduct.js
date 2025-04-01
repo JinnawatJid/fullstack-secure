@@ -9,7 +9,7 @@ module.exports = (dbPool) => {
             return res.status(400).json({ message: 'Product ID is required to fetch product data.' });
         }
         try {
-            const query = 'SELECT "productID", "productName", "price", "qty", "picURLs" FROM "Product" WHERE "productID" = $1';
+            const query = 'SELECT "productid", "productname", "price", "qty", "picurls" FROM "product" WHERE "productid" = $1';
             const results = await dbPool.query(query, [productId]);
 
             if (results.rows.length === 0) {

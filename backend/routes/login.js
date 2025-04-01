@@ -1,57 +1,64 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const loginLimiter = require("../utils/rateLimiter");
+
+const JWT_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
 module.exports = (dbPool) => {
-    router.post("/", async (req, res) => {
-        const { email, password } = req.body;
+  router.post(
+    "/",
+    /*loginLimiter*/ async (req, res) => {
+      const { email, password } = req.body;
 
-        console.log(
-            "Login attempt for:",
-            email,
-            "Password:",
-            "******** (hashed)"
+      console.log("Login attempt for:", email);
+
+      try {
+        const result = await dbPool.query(
+          'SELECT * FROM public."user" WHERE "email" = $1',
+          [email]
+        );
+        const user = result.rows[0];
+
+        if (!user) {
+          console.log("email not found in database:", email);
+          return res
+            .status(401)
+            .json({ message: "Invalid email or password." });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.hashpassword);
+
+        if (!passwordMatch) {
+          console.log("Incorrect password for:", email);
+          return res
+            .status(401)
+            .json({ message: "Invalid email or password." });
+        }
+
+        console.log("Login successful for:", email, "Role:", user.role);
+
+        // Generate JWT
+        const token = jwt.sign(
+          { userId: user.id, email: user.email, role: user.role }, // Payload
+          JWT_SECRET, // Secret key
+          { expiresIn: "1h" } // Token expiration time
         );
 
-        try {
-            // ค้นหาผู้ใช้ในฐานข้อมูล
-            const userQuery = 'SELECT * FROM "User" WHERE "Email" = $1'; // Changed 'email' to '"Email"'
-            const userResult = await dbPool.query(userQuery, [email]);
+        res.status(200).json({
+          message: "Login successful",
+          token: token,
+          role: user.role,
+        });
+      } catch (error) {
+        console.error("Login database error", error);
+        return res
+          .status(500)
+          .json({ message: "Login failed due to server error." });
+      }
+    }
+  );
 
-            // ตรวจสอบว่าพบผู้ใช้หรือไม่
-            if (userResult.rows.length === 0) {
-                console.log("User not found in database:", email);
-                return res
-                    .status(401)
-                    .json({ message: "Invalid email or password." });
-            }
-
-            const user = userResult.rows[0];
-
-            // ตรวจสอบรหัสผ่าน
-            const passwordMatch = await bcrypt.compare(password, user.HashPassword); // Changed user.hashpassword to user.HashPassword
-
-            if (!passwordMatch) {
-                console.log("Incorrect password for:", email);
-                return res
-                    .status(401)
-                    .json({ message: "Invalid email or password." });
-            }
-
-            // แปลง Role ให้เป็น lowercase เพื่อให้ตรงกับที่ frontend คาดหวัง
-            let clientRole = user.Role.toLowerCase(); // Changed user.role to user.Role
-
-            console.log("Login successful for:", email, "Role:", user.Role); // Changed user.role to user.Role
-
-            res.status(200).json({ role: clientRole, email: user.Email }); // Changed user.email to user.Email
-
-        } catch (error) {
-            console.error("Login database error", error);
-            res
-                .status(500)
-                .json({ message: "Login failed due to server error." });
-        }
-    });
-
-    return router;
+  return router;
 };
