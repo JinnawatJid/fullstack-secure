@@ -10,15 +10,15 @@ const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const privateKey = fs.readFileSync('./localhost-key.pem', 'utf8');
-const certificate = fs.readFileSync('./localhost.pem', 'utf8');
+// const privateKey = fs.readFileSync('./localhost-key.pem', 'utf8');
+// const certificate = fs.readFileSync('./localhost.pem', 'utf8');
 
-const credentials = {
-    key: privateKey,
-    cert: certificate
-  };
+// const credentials = {
+//     key: privateKey,
+//     cert: certificate
+//   };
 
-const httpsServer = https.createServer(credentials, app);
+// const httpsServer = https.createServer(credentials, app);
 
 const googleLoginRoute = require('./routes/googleLogin');
 const loginRoute = require('./routes/login');
@@ -48,6 +48,7 @@ app.get('/api/config', (req, res) => {
 app.use('/api/getUsers', fetchUsersRoute);
 app.use('/api/getProduct', fetchProductRoute);
 
-httpsServer.listen(port, () => {
-    console.log(`Server listening at https://localhost:${port}`);
+// Use the standard app.listen for HTTP
+app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`);
 });
