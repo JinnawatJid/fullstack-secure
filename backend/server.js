@@ -29,8 +29,11 @@ const fetchProductRoute = require('./routes/admin/fetchProduct');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../frontend')));
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+  });
+  
 app.use('/login', loginRoute(dbPool));
 app.use('/register', registerRoute(dbPool));
 app.use('/auth/google', googleLoginRoute(dbPool));
