@@ -8,7 +8,7 @@ const https = require('https');
 const fs = require('fs');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const privateKey = fs.readFileSync('./localhost-key.pem', 'utf8');
 const certificate = fs.readFileSync('./localhost.pem', 'utf8');
