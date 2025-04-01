@@ -30,10 +30,13 @@ const fetchProductRoute = require('./routes/admin/fetchProduct');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Serve static files BEFORE defining API routes
+app.use(express.static(path.join(__dirname, '../frontend')));
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'));
   });
-  
+
 app.use('/login', loginRoute(dbPool));
 app.use('/register', registerRoute(dbPool));
 app.use('/auth/google', googleLoginRoute(dbPool));
@@ -46,5 +49,5 @@ app.use('/api/getUsers', fetchUsersRoute);
 app.use('/api/getProduct', fetchProductRoute);
 
 httpsServer.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+    console.log(`Server listening at https://localhost:${port}`);
 });
