@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const cookieParser = require('cookie-parser'); // Add cookie-parser
-const csrf = require('csurf'); // Add CSRF protection
+const cookieParser = require('cookie-parser');
+const { csrfProtection, applyCsrf, getCsrfToken } = require('./middleware/csrf'); // Import
 require('dotenv').config();
 
 const app = express();
@@ -17,14 +17,14 @@ const { sanitizeRequestBody } = require('./middleware/sanitizer');
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cookieParser()); // Add cookie parser middleware before CSRF
+app.use(cookieParser());
 
 // Add sanitization middleware after body parsing
 app.use(sanitizeRequestBody);
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use(express.static(path.join(__dirname, '../frontend/Seller')));
 
-// CORS configuration
+// CORS configuration (คงไว้)
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, CSRF-Token');
@@ -32,60 +32,31 @@ app.use((req, res, next) => {
     next();
 });
 
-// Add CSP headers to prevent XSS
+// Add CSP headers (คงไว้)
 app.use((req, res, next) => {
     res.header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;");
     next();
 });
 
-// Setup CSRF protection
-const csrfProtection = csrf({ 
-    cookie: {
-        key: '_csrf',
-        path: '/',
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict'
-    } 
-});
-
-// Enable CSRF protection for all POST, PUT, DELETE routes
-app.use((req, res, next) => {
-    // Skip CSRF for login and registration routes
-    if (req.path === '/login' && req.method === 'POST') {
-        return next();
-    }
-    if (req.path === '/register' && req.method === 'POST') {
-        return next();
-    }
-    
-    // Apply CSRF protection for all other routes that modify data
-    if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
-        return csrfProtection(req, res, next);
-    }
-    
-    next();
-});
+// Enable CSRF protection
+app.use(applyCsrf); // ใช้ middleware ที่ import มา
 
 // Create an endpoint to get CSRF token
-app.get('/csrf-token', csrfProtection, (req, res) => {
-    res.json({ csrfToken: req.csrfToken() });
-});
+app.get('/csrf-token', csrfProtection, getCsrfToken); // ใช้ handler ที่ import มา
 
-// Routes
+// Routes (คงไว้)
 app.use('/login', loginRoute(dbPool));
 app.use('/register', registerRoute(dbPool));
-app.use('/seller', csrfProtection, sellerDashboardRoute(dbPool)); // Apply CSRF on seller routes
+app.use('/seller', csrfProtection, sellerDashboardRoute(dbPool)); // ยังคงใช้ csrfProtection โดยตรงกับ route นี้
 
-// Error handling middleware
+// Error handling middleware (คงไว้)
 app.use((err, req, res, next) => {
     if (err.code === 'EBADCSRFTOKEN') {
-        // Handle CSRF token errors
-        return res.status(403).json({ 
-            message: 'Invalid or missing CSRF token. Please refresh the page and try again.' 
+        return res.status(403).json({
+            message: 'Invalid or missing CSRF token. Please refresh the page and try again.'
         });
     }
-    
+
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
