@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const escape = require('escape-html'); // ติดตั้ง: npm install escape-html
 
 module.exports = (dbPool) => {
     router.get('/:productId', async (req, res) => {
@@ -15,7 +16,14 @@ module.exports = (dbPool) => {
                 return res.status(404).json({ message: 'Product not found' });
             }
 
-            res.json(results.rows[0]);
+            // Escape ข้อมูลก่อนส่งกลับ
+            const product = {
+                ...results.rows[0],
+                productName: escape(results.rows[0].productName),
+                picURLs: results.rows[0].picURLs ? escape(results.rows[0].picURLs) : null
+            };
+
+            res.json(product);
         } catch (error) {
             console.error('Error fetching product data:', error);
             res.status(500).json({ message: 'Failed to fetch product data' });
