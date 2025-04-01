@@ -1,5 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
-    loadDashboardData();
+    // Get CSRF token when page loads
+    let csrfToken = '';
+    
+    // Fetch CSRF token first
+    getCsrfToken().then(() => {
+        // Then load dashboard data
+        loadDashboardData();
+    });
+    
+    async function getCsrfToken() {
+        try {
+            const response = await fetch('/csrf-token');
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const data = await response.json();
+            csrfToken = data.csrfToken;
+            
+            // Store CSRF token in meta tag for easy access
+            const metaTag = document.createElement('meta');
+            metaTag.name = 'csrf-token';
+            metaTag.content = csrfToken;
+            document.head.appendChild(metaTag);
+            
+            return csrfToken;
+        } catch (error) {
+            console.error('Error fetching CSRF token:', error);
+            alert('Failed to load security token. Please refresh the page.');
+        }
+    }
 
     const addProductModal = document.getElementById('add-product-modal');
     const editProductModal = document.getElementById('edit-product-modal');
@@ -47,7 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch('/seller/products', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken // Add CSRF token to header
+                    },
                     body: JSON.stringify({ productName, price: productPrice, qty: productQuantity, picURLs: productImage })
                 });
 
@@ -83,7 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch(`/seller/products/${productId}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken // Add CSRF token to header
+                    },
                     body: JSON.stringify({ productName, productPrice, productQuantity, productImage })
                 });
 
@@ -155,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => console.error('Error fetching dashboard data:', error));
     }
+
     // Edit product
     window.editProduct = async (productId) => {
         try {
@@ -179,7 +213,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!confirm(`Are you sure you want to delete product ID: ${productId}?`)) return;
 
         try {
-            const response = await fetch(`/seller/products/${productId}`, { method: 'DELETE' });
+            const response = await fetch(`/seller/products/${productId}`, { 
+                method: 'DELETE',
+                headers: {
+                    'CSRF-Token': csrfToken // Add CSRF token to header
+                }
+            });
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
             const productRow = document.querySelector(`#product-table-body tr[data-product-id="${productId}"]`);
@@ -196,7 +235,12 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutButton.addEventListener('click', async () => {
             localStorage.removeItem('user');
             try {
-                const response = await fetch('/seller/logout', { method: 'POST' });
+                const response = await fetch('/seller/logout', { 
+                    method: 'POST',
+                    headers: {
+                        'CSRF-Token': csrfToken // Add CSRF token to header
+                    }
+                });
                 if (response.ok) {
                     window.location.href = '/index.html';
                 } else {

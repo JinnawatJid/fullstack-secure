@@ -80,6 +80,7 @@
             </div>
             <div class="modal-body">
                 <form id="add-product-form">
+                    <!-- CSRF token will be added via JavaScript -->
                     <div class="form-group">
                         <label for="productName">Product Name:</label>
                         <input type="text" id="productName" name="productName" required>
@@ -114,6 +115,7 @@
             <div class="modal-body">
                 <form id="edit-product-form">
                     <input type="hidden" id="edit-product-id">
+                    <!-- CSRF token will be added via JavaScript -->
                     <div class="form-group">
                         <label for="edit-productName">Product Name:</label>
                         <input type="text" id="edit-productName" name="productName" required>
