@@ -1,6 +1,6 @@
 async function fetchUsers() {
     try {
-        const response = await fetch('https://localhost:3000/api/getUsers');
+        const response = await fetch('https://www.sweetiefruity.site/api/getUsers');
         const users = await response.json();
 
         console.log(users);  // Log the users to see what data you're receiving
@@ -25,7 +25,7 @@ async function fetchUsers() {
 
 async function fetchProduct() {
     try {
-        const response = await fetch('https://localhost:3000/api/getProduct');
+        const response = await fetch('https://www.sweetiefruity.site/getProduct');
         const product = await response.json();
 
         console.log(product); 

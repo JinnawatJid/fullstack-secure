@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Check for JWT and update login button
   const authToken = localStorage.getItem('authToken');
-
+    
   if (authToken) {
     // User is logged in, change to user icon
     if (loginButton) {
