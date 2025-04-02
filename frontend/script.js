@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
               console.log(
                 "Default redirection to user.html (or adjust as needed)"
               );
-              window.location.href = "user.html";
+              window.location.href = "/Member/catalog.html";
           }
         })
         .catch((error) => {
