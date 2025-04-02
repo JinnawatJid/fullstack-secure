@@ -25,7 +25,7 @@ async function fetchUsers() {
 
 async function fetchProduct() {
     try {
-        const response = await fetch('https://www.sweetiefruity.site/getProduct');
+        const response = await fetch('https://www.sweetiefruity.site/api/getProduct');
         const product = await response.json();
 
         console.log(product); 
