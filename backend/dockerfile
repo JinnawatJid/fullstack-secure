@@ -1,0 +1,29 @@
+# Use an official Node.js runtime as a parent image
+FROM node:18-alpine
+
+# Set the working directory in the container
+WORKDIR /app/backend
+
+# Copy package.json and package-lock.json to the working directory
+COPY backend/package*.json ./
+
+# List the contents of the working directory
+RUN ls -la /app/backend
+
+# Install application dependencies
+RUN npm install
+
+# Create a frontend directory in the backend container
+RUN mkdir /app/frontend
+
+# Copy the entire frontend directory from the root of the build context
+COPY frontend /app/frontend
+
+# Copy the rest of the backend application code
+COPY . .
+
+# Expose the port your backend application runs on (replace 3000 if needed)
+EXPOSE 3000
+
+# Define the command to run your application
+CMD ["node", "server.js"]
