@@ -17,7 +17,7 @@ async function fetchUsers() {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/api/getUsers', {
+        const response = await fetch('https://www.sweetiefruity.site/api/getUsers', {
             headers: {
                 'Authorization': `Bearer ${authToken}`,
                 'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ async function fetchProduct() {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/api/getProduct', {
+        const response = await fetch('https://www.sweetiefruity.site/api/getProduct', {
             headers: {
                 'Authorization': `Bearer ${authToken}`,
                 'Content-Type': 'application/json'
