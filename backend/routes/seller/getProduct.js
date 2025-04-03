@@ -23,6 +23,7 @@ module.exports = (dbPool) => {
                 picURLs: results.rows[0].picURLs ? escape(results.rows[0].picURLs) : null
             };
 
+            console.log('Product data fetched successfully:', product);
             res.json(product);
         } catch (error) {
             console.error('Error fetching product data:', error);
