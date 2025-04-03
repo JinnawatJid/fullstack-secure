@@ -22,4 +22,4 @@ pool
     console.error("Database connection error", err);
   });
 
-module.exports = db;
+module.exports = pool;
