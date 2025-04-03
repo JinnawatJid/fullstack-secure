@@ -6,19 +6,24 @@
     <title>Seller Dashboard</title>
     <link rel="stylesheet" href="./seller.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+    
+    <div class="navbar-container" style="position: fixed; top: 0; left: 0; width: 100%; background-color: #f4f4f4; padding: 10px; display: flex; align-items: center; justify-content: space-between; z-index: 999;">
+        <div class="navbar-logo" style="font-weight: 600; font-size: 32px; background: linear-gradient(90deg, #4CAF50 0%, #2E7D32 100%); -webkit-text-fill-color: transparent; -webkit-background-clip: text; background-clip: text;">SweetieFruits🍇</div>
+        <ul class="navbar" style="list-style: none; display: flex; gap: 20px; margin: 0; padding: 10px; align-items: center; margin-right: 20px;">
+            <li><a href="catalog.html" style="font-weight: bold; color: #4CAF50; text-decoration: none; padding: 8px 12px; transition: background 0.3s;">Catalog</a></li>
+            <li><a href="about.html" style="font-weight: bold; color: #4CAF50; text-decoration: none; padding: 8px 12px; transition: background 0.3s;">About</a></li>
+            <li><button style="background-color: #5cb85c !important; border-color: #5cb85c !important; color: white !important; font-weight: bold; text-decoration: none; padding: 8px 12px; transition: background 0.3s; border-radius: 4px;">Login</button></li>
+        </ul>
+    </div>
+
     <div class="container">
         <div class="dashboard-header">
             <div class="header-left">
                 <h1>Seller Dashboard</h1>
                 <p>Welcome, <span id="username-display">Seller</span>!</p>
-            </div>
-            <div class="header-right">
-                <button id="logout-btn">
-                    <span class="icon">✕</span>
-                    Logout
-                </button>
             </div>
         </div>
 
@@ -138,6 +143,16 @@
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+
+    <div id="profileModal" class="profile-modal">
+        <div class="profile-modal-content">
+            <span class="profile-modal-close">&times;</span>
+            <h2 class="profile-modal-title">Show Profile</h2>
+            <img id="profile-modal-user-image" src="" alt="User Icon" class="profile-modal-user-icon">
+            <div id="profile-modal-payload-container" class="profile-modal-payload">
+                </div>
         </div>
     </div>
 
