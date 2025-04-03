@@ -17,7 +17,7 @@ async function fetchUsers() {
     }
 
     try {
-        const response = await fetch('https://www.sweetiefruity.site/api/getUsers', {
+        const response = await fetch('http://localhost:3000/api/getUsers', {
             headers: {
                 'Authorization': `Bearer ${authToken}`,
                 'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ async function fetchProduct() {
     }
 
     try {
-        const response = await fetch('https://www.sweetiefruity.site/api/getProduct', {
+        const response = await fetch('http://localhost:3000/api/getProduct', {
             headers: {
                 'Authorization': `Bearer ${authToken}`,
                 'Content-Type': 'application/json'
@@ -372,8 +372,55 @@ function closeProfileModal() {
     profileModal.style.display = 'none';
 }
 
+async function autheUser() {
+    const authToken = localStorage.getItem('authToken');
+  
+    if (!authToken) {
+      console.error('No authentication token found. Redirecting to login.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Authentication Required',
+        text: 'No authentication token found. Redirecting to login in 2 seconds...',
+        timer: 2000,
+        showConfirmButton: false,
+        willClose: () => {
+          window.location.href = '/';
+        }
+      });
+      return false; // Indicate that authentication failed
+    }
+  
+    // Decode the JWT token
+    const decodedToken = decodeJwt(authToken);
+  
+    if (decodedToken) {
+      console.log('Decoded JWT Payload in autheUser:', decodedToken);
+      if (decodedToken.role === 'Admin') {
+        console.log('User role is Admin. Proceeding');
+        return true; // Indicate authentication and role check successful
+      } else {
+        Swal.fire({
+          icon: 'info',
+          title: 'Access Restricted',
+          text: `User role is not Admin: ${decodedToken.role}. Redirecting to login...`,
+          timer: 2000,
+          showConfirmButton: false,
+          willClose: () => {
+            window.location.href = '/index.html';
+          }
+        });
+        return false;
+      }
+    } else {
+      console.error('Failed to decode JWT token in autheUser.');
+      // Optionally handle the case where the token is invalid, e.g., redirect to login
+      return false; // Indicate authentication failed due to invalid token
+    }
+  }
+
 async function loadData() {
     updateNavbarBasedOnAuth();
+    await autheUser();
     await fetchUsers();
     await fetchProduct();
 

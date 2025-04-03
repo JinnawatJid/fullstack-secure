@@ -59,6 +59,9 @@ server.use('/api/getUsers', fetchUsersRoute);
 server.use('/api/getProduct', fetchProductRoute);
 
 server.get('/Admin/dashboard.html', checkAuthentication, (req, res) => {
+
+  console.log('User role:', req.user.role); // Log the user role for debugging
+
     if (req.user && req.user.role === 'Admin') {
       res.sendFile(path.join(__dirname, '../frontend/Admin/dashboard.html'));
     } else {
@@ -68,6 +71,9 @@ server.get('/Admin/dashboard.html', checkAuthentication, (req, res) => {
   });
   
   server.get('/Seller/shop.html', checkAuthentication, (req, res) => {
+
+    console.log('User role:', req.user.role); // Log the user role for debugging
+
     if (req.user && req.user.role === 'Seller') {
       res.sendFile(path.join(__dirname, '../frontend/Seller/shop.html'));
     } else {
@@ -77,6 +83,9 @@ server.get('/Admin/dashboard.html', checkAuthentication, (req, res) => {
   });
   
   server.get('/Member/catalog.html', checkAuthentication, (req, res) => {
+
+    console.log('User role:', req.user.role); // Log the user role for debugging
+
     if (req.user && (req.user.role === 'Member' || req.user.role === 'Admin' || req.user.role === 'Seller')) {
       res.sendFile(path.join(__dirname, '../frontend/Member/catalog.html'));
     } else {

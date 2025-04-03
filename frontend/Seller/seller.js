@@ -487,7 +487,54 @@ function closeProfileModal() {
   profileModal.style.display = 'none';
 }
 
+async function autheUser() {
+  const authToken = localStorage.getItem('authToken');
+
+  if (!authToken) {
+    console.error('No authentication token found. Redirecting to login.');
+    Swal.fire({
+      icon: 'warning',
+      title: 'Authentication Required',
+      text: 'No authentication token found. Redirecting to login in 2 seconds...',
+      timer: 2000,
+      showConfirmButton: false,
+      willClose: () => {
+        window.location.href = '/';
+      }
+    });
+    return false; // Indicate that authentication failed
+  }
+
+  // Decode the JWT token
+  const decodedToken = decodeJwt(authToken);
+
+  if (decodedToken) {
+    console.log('Decoded JWT Payload in autheUser:', decodedToken);
+    if (decodedToken.role === 'Seller') {
+      console.log('User role is Seller. Proceeding');
+      return true; // Indicate authentication and role check successful
+    } else {
+      Swal.fire({
+        icon: 'info',
+        title: 'Access Restricted',
+        text: `User role is not Seller: ${decodedToken.role}. Redirecting to login...`,
+        timer: 2000,
+        showConfirmButton: false,
+        willClose: () => {
+          window.location.href = '/index.html';
+        }
+      });
+      return false;
+    }
+  } else {
+    console.error('Failed to decode JWT token in autheUser.');
+    // Optionally handle the case where the token is invalid, e.g., redirect to login
+    return false; // Indicate authentication failed due to invalid token
+  }
+}
+
 async function loadData() {
+  await autheUser(); // Ensure the user is authenticated before loading data
   updateNavbarBasedOnAuth();
 
   // Add event listener to the close button of the modal after the DOM is loaded
