@@ -17,6 +17,11 @@ const applyCsrf = (req, res, next) => {
     if (req.path === '/login' && req.method === 'POST') {
         return next();
     }
+
+    if (req.path === '/auth/google' && req.method === 'POST') {
+        return next();
+    }
+
     if (req.path === '/register' && req.method === 'POST') {
         return next();
     }
