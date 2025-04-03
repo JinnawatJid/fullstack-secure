@@ -1,9 +1,10 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const { csrfProtection, applyCsrf, getCsrfToken } = require('./middleware/csrf'); // Import
-require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -57,6 +58,33 @@ app.get('/api/config', (req, res) => {
 app.use('/api/getUsers', fetchUsersRoute);
 app.use('/api/getProduct', fetchProductRoute);
 
+app.get('/Admin/dashboard.html', checkAuthentication, (req, res) => {
+    if (req.user && req.user.role === 'Admin') {
+      res.sendFile(path.join(__dirname, '../frontend/Admin/dashboard.html'));
+    } else {
+      res.redirect('/index.html');
+      res.status(403).send('Unauthorized'); 
+    }
+  });
+  
+  app.get('/Seller/shop.html', checkAuthentication, (req, res) => {
+    if (req.user && req.user.role === 'Seller') {
+      res.sendFile(path.join(__dirname, '../frontend/Seller/shop.html'));
+    } else {
+      res.redirect('/index.html');
+      res.status(403).send('Unauthorized'); 
+    }
+  });
+  
+  app.get('/Member/catalog.html', checkAuthentication, (req, res) => {
+    if (req.user && (req.user.role === 'Member' || req.user.role === 'Admin' || req.user.role === 'Seller')) {
+      res.sendFile(path.join(__dirname, '../frontend/Member/catalog.html'));
+    } else {
+      res.redirect('/index.html');
+      res.status(403).send('Unauthorized'); 
+    }
+  });
+
 app.use('/seller', csrfProtection, sellerDashboardRoute(dbPool)); // ยังคงใช้ csrfProtection โดยตรงกับ route นี้
 
 // Error handling middleware (คงไว้)
@@ -71,6 +99,6 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
-httpsServer.listen(port, () => {
+app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
 });
