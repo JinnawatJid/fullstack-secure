@@ -38,8 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
               window.location.href = "/Admin/dashboard.html";
               break;
             case "Seller":
-              console.log("Redirecting to /Seller/shop.html");
-              window.location.href = "/Seller/shop.html";
+              console.log("Redirecting to /Seller/seller.html");
+              window.location.href = "/Seller/seller.html";
               break;
             case "Member":
               console.log("Redirecting to /Member/catalog.html");

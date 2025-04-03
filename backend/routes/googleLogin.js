@@ -22,6 +22,7 @@ module.exports = (dbPool) => {
         audience: CLIENT_ID,
       });
       const payload = ticket.getPayload();
+      console.log("Google ID token payload:", payload);
       const googleEmail = payload['email'];
       const googleUserId = payload['sub']; // Unique Google ID
 

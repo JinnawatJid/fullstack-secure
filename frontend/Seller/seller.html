@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard</title>
+    <link rel="stylesheet" href="./seller.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-header">
+            <div class="header-left">
+                <h1>Seller Dashboard</h1>
+                <p>Welcome, <span id="username-display">Seller</span>!</p>
+            </div>
+            <div class="header-right">
+                <button id="logout-btn">
+                    <span class="icon">✕</span>
+                    Logout
+                </button>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-card-title">Total Sales</div>
+                    <div class="stat-card-icon">$</div>
+                </div>
+                <div class="stat-card-value" id="total-sales-value">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-card-title">Best Seller</div>
+                    <div class="stat-card-icon">★</div>
+                </div>
+                <div class="stat-card-value" id="best-seller-value">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-card-title">VAT (7%)</div>
+                    <div class="stat-card-icon">%</div>
+                </div>
+                <div class="stat-card-value" id="vat-value">--</div>
+            </div>
+        </div>
+
+        <div class="products-card">
+            <div class="products-header">
+                <div class="products-title">My Products</div>
+                <button class="add-product-btn" id="add-product-btn">
+                    <span class="icon">+</span>
+                    Add Product
+                </button>
+            </div>
+            <div class="products-table-container">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="add-product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Add New Product</div>
+                <button class="close-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-product-form">
+                    <!-- CSRF token will be added via JavaScript -->
+                    <div class="form-group">
+                        <label for="productName">Product Name:</label>
+                        <input type="text" id="productName" name="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Price:</label>
+                        <input type="number" id="productPrice" name="productPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productQuantity">Quantity:</label>
+                        <input type="number" id="productQuantity" name="productQuantity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage">Image URL:</label>
+                        <input type="text" id="productImage" name="productImage">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="save-button">Add Product</button>
+                        <button type="button" class="cancel-button">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Edit Product</div>
+                <button class="close-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-product-form">
+                    <input type="hidden" id="edit-product-id">
+                    <!-- CSRF token will be added via JavaScript -->
+                    <div class="form-group">
+                        <label for="edit-productName">Product Name:</label>
+                        <input type="text" id="edit-productName" name="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-productPrice">Price:</label>
+                        <input type="number" id="edit-productPrice" name="productPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-productQuantity">Quantity:</label>
+                        <input type="number" id="edit-productQuantity" name="productQuantity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-productImage">Image URL:</label>
+                        <input type="text" id="edit-productImage" name="productImage">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="save-button">Save Changes</button>
+                        <button type="button" class="cancel-button">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./seller.js"></script>
+</body>
+</html>
